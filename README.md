@@ -1,0 +1,2 @@
+# Nicehash Tool
+

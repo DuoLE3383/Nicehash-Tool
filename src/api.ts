@@ -68,25 +68,25 @@ export const nicehashAPI = {
     }),
 
   // Pool endpoints
-  getPools: () => request('///main/api/v2/pool/'),
-  getPoolDetails: (poolId: string) => request(`///main/api/v2/pool//${poolId}`),
+  getPools: () => request('/main/api/v2/pool'),
+  getPoolDetails: (poolId: string) => request(`/main/api/v2/pool/${poolId}`),
 
   createPool: (poolData: any) => 
-    request('///main/api/v2/pool/', {
+    request('/main/api/v2/pool', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(poolData),
     }),
 
   verifyPool: (poolData: any) => 
-    request('///main/api/v2/pool//verify', {
+    request('/main/api/v2/pool/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(poolData),
     }),
 
   deletePool: (poolId: string) => 
-    request(`///main/api/v2/pool//${poolId}`, { method: 'DELETE' }),
+    request(`/main/api/v2/pool/${poolId}`, { method: 'DELETE' }),
 
   // Public endpoints
   getPublicCurrencies: () => request('/main/api/v2/public/currencies'),

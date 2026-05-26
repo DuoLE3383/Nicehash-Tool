@@ -57,11 +57,12 @@ async function nicehashRequest(method, path, queryParams = null, body = null) {
 
   const timestamp = Date.now().toString();
   const nonce = crypto.randomBytes(16).toString('hex');
+  const requestId = crypto.randomUUID?.() || crypto.randomBytes(16).toString('hex');
   const query = getQueryString(queryParams);
   const bodyStr = body ? JSON.stringify(body) : '';
 
   // Normalize path: Strip existing prefix if present, then add standard prefix
-  const strippedPath = path.replace(/^\/main\/api\/v2/, '').replace(/^\//, '');
+  const strippedPath = path.replace(/^\/+main\/api\/v2/, '').replace(/^\/+/, '');
   const finalPath = `/main/api/v2/${strippedPath}`;
 
   // Extract domain and remove any existing path prefix from apiBase
@@ -79,19 +80,23 @@ async function nicehashRequest(method, path, queryParams = null, body = null) {
     finalPath,
     query || '' // Query string should NOT include '?' in the signature
   ];
-
-  const message = messageParts.join('\x00') + (bodyStr ? '\x00' + bodyStr : '');
   
-  const signature = crypto
-    .createHmac('sha256', apiSecret)
-    .update(message)
-    .digest('hex');
+  // Construct signature. Spec requires ISO-8859-1 (latin1) for headers/path 
+  // and UTF-8 for the JSON body.
+  const hmac = crypto.createHmac('sha256', apiSecret);
+  hmac.update(messageParts.join('\x00'), 'latin1');
+  if (bodyStr) {
+    hmac.update('\x00', 'latin1');
+    hmac.update(bodyStr, 'utf8');
+  }
+  const signature = hmac.digest('hex');
   
   const headers = {
     'X-Time': timestamp,
     'X-Nonce': nonce,
     'X-Auth': `${apiId}:${signature}`,
     'X-Organization-Id': orgId,
+    'X-Request-Id': requestId,
     'Content-Type': 'application/json'
   };
   
@@ -474,7 +479,7 @@ app.use('/main/api/v2/public', publicRouter);
 const poolRouter = express.Router();
 poolRouter.get('/', async (req, res) => {
   try {
-    const data = await nicehashRequest('GET', '/pools');
+    const data = await nicehashRequest('GET', 'pools');
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -482,7 +487,7 @@ poolRouter.get('/', async (req, res) => {
 });
 poolRouter.get('/:poolId', async (req, res) => {
   try {
-    const data = await nicehashRequest('GET', `/pool/${req.params.poolId}`);
+    const data = await nicehashRequest('GET', `pool/${req.params.poolId}`);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -490,7 +495,7 @@ poolRouter.get('/:poolId', async (req, res) => {
 });
 poolRouter.post('/', async (req, res) => {
   try {
-    const data = await nicehashRequest('POST', '/pool', null, req.body);
+    const data = await nicehashRequest('POST', 'pool', null, req.body);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -498,7 +503,7 @@ poolRouter.post('/', async (req, res) => {
 });
 poolRouter.post('/verify', async (req, res) => {
   try {
-    const data = await nicehashRequest('POST', '/pools/verify', null, req.body);
+    const data = await nicehashRequest('POST', 'pool/verify', null, req.body);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -506,13 +511,13 @@ poolRouter.post('/verify', async (req, res) => {
 });
 poolRouter.delete('/:poolId', async (req, res) => {
   try {
-    const data = await nicehashRequest('DELETE', `/pool/${req.params.poolId}`);
+    const data = await nicehashRequest('DELETE', `pool/${req.params.poolId}`);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('///main/api/v2/pool/', poolRouter);
+app.use('/main/api/v2/pool', poolRouter);
 
 const hashpowerRouter = express.Router();
 hashpowerRouter.get('/myOrders', async (req, res) => {

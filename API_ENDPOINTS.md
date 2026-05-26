@@ -52,11 +52,11 @@ Server runs on `http://localhost:8080`
 - **GET** `/main/api/v2/public/fees` - Fee information
 
 ### Pools
-- **GET** `///main/api/v2/pool/` - List all pools
-- **GET** `///main/api/v2/pool//:poolId` - Details for specific pool
-- **POST** `///main/api/v2/pool/` - Create or edit a pool
-- **POST** `///main/api/v2/pool//verify` - Verify a pool
-- **DELETE** `///main/api/v2/pool//:poolId` - Delete a pool
+- **GET** `/main/api/v2/pool` - List all pools
+- **GET** `/main/api/v2/pool/:poolId` - Details for specific pool
+- **POST** `/main/api/v2/pool` - Create or edit a pool
+- **POST** `/main/api/v2/pool/verify` - Verify a pool
+- **DELETE** `/main/api/v2/pool/:poolId` - Delete a pool
 
 ### Config (Tool Configuration)
 - **GET** `/api/nicehash/config` - Get current tool configuration

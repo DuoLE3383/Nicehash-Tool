@@ -1,0 +1,20 @@
+[2m5:29:34 AM[22m [33m[1m[vite][22m[39m [33mwarning: [33mDuplicate key "getMiningAlgorithms" in object literal[33m
+127|    },
+128|  
+129|    getMiningAlgorithms: async () => {
+   |    ^
+130|      const res = await fetch(`${API_BASE_URL}/api/nicehash/mining/algorithms`);
+131|      if (!res.ok) throw new Error(`Failed to load algorithms: ${res.status}`);
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mD:/Working/Nicehash/Nicehash Tool/src/api.ts[39m
+[2m5:29:34 AM[22m [33m[1m[vite][22m[39m [33mwarning: [33mDuplicate key "getMiningAlgorithms" in object literal[33m
+127|    },
+128|  
+129|    getMiningAlgorithms: async () => {
+   |    ^
+130|      const res = await fetch(`${API_BASE_URL}/api/nicehash/mining/algorithms`);
+131|      if (!res.ok) throw new Error(`Failed to load algorithms: ${res.status}`);
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mD:/Working/Nicehash/Nicehash Tool/src/api.ts[39m

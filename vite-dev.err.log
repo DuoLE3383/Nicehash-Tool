@@ -3,7 +3,7 @@
 128|  
 129|    getMiningAlgorithms: async () => {
    |    ^
-130|      const res = await fetch(`${API_BASE_URL}/api/nicehash/mining/algorithms`);
+130|      const res = await fetch(`${API_BASE_URL}//main/api/v2/mining/algorithms`);
 131|      if (!res.ok) throw new Error(`Failed to load algorithms: ${res.status}`);
 [39m
   Plugin: [35mvite:esbuild[39m
@@ -13,7 +13,7 @@
 128|  
 129|    getMiningAlgorithms: async () => {
    |    ^
-130|      const res = await fetch(`${API_BASE_URL}/api/nicehash/mining/algorithms`);
+130|      const res = await fetch(`${API_BASE_URL}//main/api/v2/mining/algorithms`);
 131|      if (!res.ok) throw new Error(`Failed to load algorithms: ${res.status}`);
 [39m
   Plugin: [35mvite:esbuild[39m

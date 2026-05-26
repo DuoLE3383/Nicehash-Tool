@@ -18,7 +18,7 @@ This workspace now includes a new React + Vite dashboard for configuring the Nic
 
 The dashboard sends requests to the Nicehash config API at:
 
-- `http://localhost:8080/api/nicehash/config`
+- `http://localhost:8080/main/api/v2/config`
 
 If your API runs somewhere else, set `VITE_API_BASE_URL` in `.env`.
 

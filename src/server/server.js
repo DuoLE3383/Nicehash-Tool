@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080;
 const NICEHASH_API_ID = process.env.NICEHASH_API_ID;
 const NICEHASH_API_SECRET = process.env.NICEHASH_API_SECRET;
 const NICEHASH_ORG_ID = process.env.NICEHASH_ORG_ID || process.env.NICEHASH_ORGANIZATION_ID;
-const NICEHASH_API_BASE = 'https://api2.nicehash.com';
+const NICEHASH_API_BASE = 'https://api2.nicehash.com/main/api/v2/';
 
 // Validate environment variables
 if (!NICEHASH_API_ID || !NICEHASH_API_SECRET || !NICEHASH_ORG_ID) {
@@ -49,6 +49,10 @@ async function nicehashRequest(method, path, queryParams = null, body = null) {
   const query = getQueryString(queryParams);
   const bodyStr = body ? JSON.stringify(body) : '';
 
+  // Normalize path to include /main/api/v2
+  const strippedPath = path.replace(/^\/main\/api\/v2/, '').replace(/^\//, '');
+  const finalPath = `/main/api/v2/${strippedPath}`;
+
   // Construct signature using null-byte joined segments (Repository Logic)
   const messageParts = [
     NICEHASH_API_ID,
@@ -58,7 +62,7 @@ async function nicehashRequest(method, path, queryParams = null, body = null) {
     NICEHASH_ORG_ID,
     '',
     method,
-    path,
+    finalPath,
     query || '' // Signature segment must NOT include the '?' character
   ];
 
@@ -77,7 +81,7 @@ async function nicehashRequest(method, path, queryParams = null, body = null) {
     'Content-Type': 'application/json'
   };
   
-  const url = `${NICEHASH_API_BASE}${path}${query ? '?' + query : ''}`;
+  const url = `${NICEHASH_API_BASE}${finalPath}${query ? '?' + query : ''}`;
 
   try {
     const response = await fetch(url, {
@@ -118,9 +122,9 @@ app.post('/api/nicehash/config', (req, res) => {
 });
 
 // GET Nicehash account info
-app.get('//main/api/v2/account', async (req, res) => {
+app.get('/api/nicehash/account', async (req, res) => {
   try {
-    const data = await nicehashRequest('GET', '/main/api/v2/users/me');
+    const data = await nicehashRequest('GET', '/users/me');
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -392,7 +396,7 @@ app.get('/api/nicehash/public/fees', async (req, res) => {
 // GET Pools
 app.get('/api/nicehash/pools', async (req, res) => {
   try {
-    const data = await nicehashRequest('GET', '/main/api/v2/pools');
+    const data = await nicehashRequest('GET', '///main/api/v2/pool/');
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -402,7 +406,7 @@ app.get('/api/nicehash/pools', async (req, res) => {
 // GET Pool details
 app.get('/api/nicehash/pools/:poolId', async (req, res) => {
   try {
-    const data = await nicehashRequest('GET', `/main/api/v2/pool/${req.params.poolId}`);
+    const data = await nicehashRequest('GET', `//main/api/v2/pool//${req.params.poolId}`);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -412,7 +416,7 @@ app.get('/api/nicehash/pools/:poolId', async (req, res) => {
 // POST Create pool
 app.post('/api/nicehash/pools', async (req, res) => {
   try {
-    const data = await nicehashRequest('POST', '/main/api/v2/pool', null, req.body);
+    const data = await nicehashRequest('POST', '//main/api/v2/pool/', null, req.body);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -422,7 +426,7 @@ app.post('/api/nicehash/pools', async (req, res) => {
 // POST Verify pool
 app.post('/api/nicehash/pools/verify', async (req, res) => {
   try {
-    const data = await nicehashRequest('POST', '/main/api/v2/pools/verify', null, req.body);
+    const data = await nicehashRequest('POST', '///main/api/v2/pool//verify', null, req.body);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -432,7 +436,7 @@ app.post('/api/nicehash/pools/verify', async (req, res) => {
 // DELETE pool
 app.delete('/api/nicehash/pools/:poolId', async (req, res) => {
   try {
-    const data = await nicehashRequest('DELETE', `/main/api/v2/pool/${req.params.poolId}`);
+    const data = await nicehashRequest('DELETE', `//main/api/v2/pool//${req.params.poolId}`);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });

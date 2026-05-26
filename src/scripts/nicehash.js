@@ -26,7 +26,7 @@
 
     async function loadRemoteConfig() {
         try {
-            const res = await fetch('http://localhost:8080/api/nicehash/config');
+            const res = await fetch('http://localhost:8080/main/api/v2/config');
             if (res.ok) {
                 const data = await res.json();
                 config.minDelay = data.min_delay || config.minDelay;

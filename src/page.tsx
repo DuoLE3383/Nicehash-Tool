@@ -24,7 +24,7 @@ export default function NicehashConfigPage() {
 
     const fetchConfig = async () => {
         try {
-            const res = await fetch(`${API_BASE_URL}/api/nicehash/config`);
+            const res = await fetch(`${API_BASE_URL}/main/api/v2/config`);
             if (res.ok) {
                 const data = await res.json();
                 setConfig(data);
@@ -44,7 +44,7 @@ export default function NicehashConfigPage() {
         setMessage(null);
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/nicehash/config`, {
+            const res = await fetch(`${API_BASE_URL}/main/api/v2/config`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json'

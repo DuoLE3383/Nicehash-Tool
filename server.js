@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8080;
 const NICEHASH_API_ID = process.env.NICEHASH_API_ID;
 const NICEHASH_API_SECRET = process.env.NICEHASH_API_SECRET;
 const NICEHASH_ORG_ID = process.env.NICEHASH_ORG_ID || process.env.NICEHASH_ORGANIZATION_ID;
-const NICEHASH_API_BASE = 'https://api2.nicehash.com';
+const NICEHASH_API_BASE = 'https://api2.nicehash.com/main/api/v2/';
 
 const ENV_PATH = path.join(process.cwd(), '.env');
 
@@ -211,7 +211,7 @@ configRouter.post('/', (req, res) => {
   
   res.json({ success: true, config: storedConfig });
 });
-app.use('/api/nicehash/config', configRouter);
+app.use('/main/api/v2/config', configRouter);
 
 const accountRouter = express.Router();
 accountRouter.get('/', async (req, res) => {
@@ -278,9 +278,9 @@ accountRouter.get('/deposits/:currency', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('//main/api/v2/account', accountRouter);
+app.use('/main/api/v2/account', accountRouter);
 // Alias support
-app.use('/api/nicehash/balances', (req, res) => res.redirect('//main/api/v2/account/balances'));
+app.use('/main/api/v2/balances', (req, res) => res.redirect('/main/api/v2/account/balances'));
 
 const miningRouter = express.Router();
 miningRouter.get(['/address', '/miningAddress'], async (req, res) => {
@@ -426,7 +426,7 @@ miningRouter.get('/rigs', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('/api/nicehash/mining', miningRouter);
+app.use('/main/api/v2/mining', miningRouter);
 
 const publicRouter = express.Router();
 publicRouter.get('/currencies', async (req, res) => {
@@ -469,7 +469,7 @@ publicRouter.get('/orders', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('/api/nicehash/public', publicRouter);
+app.use('/main/api/v2/public', publicRouter);
 
 const poolRouter = express.Router();
 poolRouter.get('/', async (req, res) => {
@@ -512,7 +512,7 @@ poolRouter.delete('/:poolId', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('/api/nicehash/pools', poolRouter);
+app.use('///main/api/v2/pool/', poolRouter);
 
 const hashpowerRouter = express.Router();
 hashpowerRouter.get('/myOrders', async (req, res) => {
@@ -556,7 +556,7 @@ hashpowerRouter.get('/algorithms', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.use('/api/nicehash/hashpower', hashpowerRouter);
+app.use('/main/api/v2/hashpower', hashpowerRouter);
 
 // --- Startup ---
 

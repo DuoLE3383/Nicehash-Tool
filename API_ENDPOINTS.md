@@ -17,46 +17,46 @@ Server runs on `http://localhost:8080`
 ## API Endpoints
 
 ### Accounting
-- **GET** `//main/api/v2/account` - Account information
-- **GET** `/api/nicehash/balances` - Multi-currency balances
-- **GET** `/api/nicehash/balance/:currency` - Balance for specific currency (e.g., `BTC`, `USD`)
-- **GET** `/api/nicehash/activities` - All currency activities
-- **GET** `/api/nicehash/activities/:currency` - Activities for specific currency
-- **GET** `/api/nicehash/currencies` - Available currencies
-- **GET** `/api/nicehash/deposits` - All deposits
-- **GET** `/api/nicehash/deposits/:currency` - Deposits for specific currency
+- **GET** `/main/api/v2/account` - Account information
+- **GET** `/main/api/v2/account/balances` - Multi-currency balances
+- **GET** `/main/api/v2/account/balance/:currency` - Balance for specific currency (e.g., `BTC`, `USD`)
+- **GET** `/main/api/v2/account/activities` - All currency activities
+- **GET** `/main/api/v2/account/activities/:currency` - Activities for specific currency
+- **GET** `/main/api/v2/account/currencies` - Available currencies
+- **GET** `/main/api/v2/account/deposits` - All deposits
+- **GET** `/main/api/v2/account/deposits/:currency` - Deposits for specific currency
 
 ### Hashpower (Buying)
-- **GET** `/api/nicehash/hashpower/myOrders` - List your hashpower orders
-- **POST** `/api/nicehash/hashpower/order` - Create a new hashpower order
-- **POST** `/api/nicehash/hashpower/order/:orderId` - Update price/limit for an order
-- **GET** `/api/nicehash/public/orders` - View public order book (market prices)
+- **GET** `/main/api/v2/hashpower/myOrders` - List your hashpower orders
+- **POST** `/main/api/v2/hashpower/order` - Create a new hashpower order
+- **POST** `/main/api/v2/hashpower/order/:orderId` - Update price/limit for an order
+- **GET** `/main/api/v2/public/orders` - View public order book (market prices)
 
 ### Mining
-- **GET** `/api/nicehash/mining/rigs` - All mining rigs
-- **GET** `/api/nicehash/mining/rigs/activeWorkers` - Active workers
-- **GET** `/api/nicehash/mining/rigs/:rigId` - Details for specific rig
-- **GET** `/api/nicehash/mining/rig/stats/algo` - Rig statistics by algorithm
-- **GET** `/api/nicehash/mining/rig/stats/unpaid` - Unpaid statistics
-- **GET** `/api/nicehash/mining/stats/algo` - Miner statistics by algorithm
-- **GET** `/api/nicehash/mining/rigs/payouts` - Payout history
-- **GET** `/api/nicehash/mining/rigs/stats/data` - Daily earnings
-- **GET** `/api/nicehash/mining/rigs/stats/data/algo` - Daily earnings per algorithm
-- **GET** `/api/nicehash/mining/rigs/stats/history` - Earnings history
-- **GET** `/api/nicehash/mining/groups` - Mining groups
-- **GET** `/api/nicehash/mining/algorithms` - Available mining algorithms
-- **GET** `/api/nicehash/mining/markets` - Mining markets
+- **GET** `/main/api/v2/mining/rigs` - All mining rigs
+- **GET** `/main/api/v2/mining/rigs/activeWorkers` - Active workers
+- **GET** `/main/api/v2/mining/rigs/:rigId` - Details for specific rig
+- **GET** `/main/api/v2/mining/rig/stats/algo` - Rig statistics by algorithm
+- **GET** `/main/api/v2/mining/rig/stats/unpaid` - Unpaid statistics
+- **GET** `/main/api/v2/mining/stats/algo` - Miner statistics by algorithm
+- **GET** `/main/api/v2/mining/rigs/payouts` - Payout history
+- **GET** `/main/api/v2/mining/rigs/stats/data` - Daily earnings
+- **GET** `/main/api/v2/mining/rigs/stats/data/algo` - Daily earnings per algorithm
+- **GET** `/main/api/v2/mining/rigs/stats/history` - Earnings history
+- **GET** `/main/api/v2/mining/groups` - Mining groups
+- **GET** `/main/api/v2/mining/algorithms` - Available mining algorithms
+- **GET** `/main/api/v2/mining/markets` - Mining markets
 
 ### Public
-- **GET** `/api/nicehash/public/currencies` - Public currencies
-- **GET** `/api/nicehash/public/fees` - Fee information
+- **GET** `/main/api/v2/public/currencies` - Public currencies
+- **GET** `/main/api/v2/public/fees` - Fee information
 
 ### Pools
-- **GET** `/api/nicehash/pools` - List all pools
-- **GET** `/api/nicehash/pools/:poolId` - Details for specific pool
-- **POST** `/api/nicehash/pools` - Create or edit a pool
-- **POST** `/api/nicehash/pools/verify` - Verify a pool
-- **DELETE** `/api/nicehash/pools/:poolId` - Delete a pool
+- **GET** `///main/api/v2/pool/` - List all pools
+- **GET** `///main/api/v2/pool//:poolId` - Details for specific pool
+- **POST** `///main/api/v2/pool/` - Create or edit a pool
+- **POST** `///main/api/v2/pool//verify` - Verify a pool
+- **DELETE** `///main/api/v2/pool//:poolId` - Delete a pool
 
 ### Config (Tool Configuration)
 - **GET** `/api/nicehash/config` - Get current tool configuration
@@ -68,7 +68,7 @@ Server runs on `http://localhost:8080`
 
 ### Get Account Info
 ```bash
-curl http://localhost:8080//main/api/v2/account
+curl http://localhost:8080/main/api/v2/account
 ```
 
 ### Get All Rigs
@@ -114,8 +114,6 @@ curl -X POST http://localhost:8080/api/nicehash/config \
 ## Authentication
 
 All Nicehash API requests are automatically authenticated using HMAC-SHA256 with your API credentials:
-- API ID: `69189c7f-33af-4996-8ef6-6730cd6bd9c9`
-- API Secret: `820968ce-481c-441e-bdf0-8c752283a6b2b9f80090-5039-4906-aee9-0eb600473671`
 
 No additional authentication header is needed when calling these endpoints from your frontend.
 
